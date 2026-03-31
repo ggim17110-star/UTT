@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>만사형통(萬事亨通) 해결사 사무소 | 네오-홍콩 지점</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;700;900&display=swap');
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-yellow: #ffff00;
+            --dark-bg: #0a0a0a;
+            --grime: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--dark-bg);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            /* 싸구려 비 내리는 효과를 위한 꼼수 배경 */
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://images.unsplash.com/photo-1517505963914-7f15e83be6d6?q=80&w=2000');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* 제4의 벽 돌파용 스캔라인 */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.2) 2px, rgba(0,0,0,0.2) 4px);
+            pointer-events: none; z-index: 9999;
+        }
+
+        /* 폰트 스타일 */
+        h1, h2, h3, .glitch { font-family: 'Black Han Sans', sans-serif; text-transform: uppercase; }
+
+        /* 네비게이션 (싸구려 네온 간판 느낌) */
+        nav {
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            background: rgba(10, 10, 10, 0.9); border-bottom: 2px solid var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink); padding: 15px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.5rem; color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links button {
+            background: none; border: none; color: #fff; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s; font-family: 'Black Han Sans', sans-serif;
+        }
+        .nav-links button:hover, .nav-links button.active {
+            color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        /* 메인 히어로 (과장된 느와르 연출) */
+        .hero {
+            height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; border-bottom: 5px dashed var(--neon-cyan);
+        }
+        .glitch-title {
+            font-size: 4rem; color: #fff; text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-cyan);
+            margin-bottom: 10px; position: relative;
+        }
+        .hero p {
+            font-size: 1.2rem; background: var(--neon-pink); color: #000; padding: 5px 15px; font-weight: 900;
+            transform: rotate(-2deg);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+
+        /* 섹션 제어 */
+        .section { display: none; }
+        .section.active { display: block; animation: flick 0.1s 3; }
+        @keyframes flick { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* 네오-홍콩 안내서 */
+        .world-panel {
+            background: rgba(20, 20, 20, 0.8); border: 2px solid var(--neon-cyan);
+            padding: 40px; box-shadow: 10px 10px 0 rgba(0, 255, 255, 0.2);
+            margin-bottom: 40px; line-height: 1.8;
+        }
+        .world-panel h2 { color: var(--neon-cyan); font-size: 2.5rem; margin-bottom: 20px; }
+        .highlight-pink { color: var(--neon-pink); font-weight: 900; }
+        .highlight-yellow { color: var(--neon-yellow); font-weight: 900; background: #000; padding: 2px 5px; }
+
+        /* 인물 카드 그리드 (B급 전단지 스타일) */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card {
+            background: var(--grime); border: 2px solid #333; position: relative;
+            cursor: pointer; transition: 0.2s; overflow: hidden;
+        }
+        .card:hover { border-color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink); transform: scale(1.02); }
+        .card img {
+            width: 100%; height: 350px; object-fit: cover; object-position: top;
+            filter: contrast(1.1) saturate(1.2);
+            border-bottom: 3px solid var(--neon-cyan);
+        }
+        .card-body { padding: 20px; text-align: left; }
+        .card-tag { font-size: 0.8rem; background: var(--neon-yellow); color: #000; padding: 3px 8px; font-weight: 900; display: inline-block; margin-bottom: 10px; }
+        .card-name { font-size: 2rem; color: #fff; font-family: 'Black Han Sans', sans-serif; text-shadow: 2px 2px #000; }
+
+        /* 모달 (낡은 터미널 느낌) */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; z-index: 2000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #111; border: 2px solid var(--neon-yellow); width: 100%; max-width: 900px;
+            display: grid; grid-template-columns: 1fr 1.5fr; box-shadow: 0 0 30px rgba(255, 255, 0, 0.2);
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        .modal-img { background-size: cover; background-position: top center; border-right: 2px solid #333; min-height: 400px;}
+        .modal-body { padding: 30px; color: #ccc; }
+        .close-btn { position: absolute; top: 10px; right: 20px; font-size: 2rem; color: var(--neon-pink); background: none; border: none; cursor: pointer; font-family: 'Black Han Sans', sans-serif; }
+
+        .dialogue-box {
+            background: rgba(255, 0, 255, 0.1); border-left: 5px solid var(--neon-pink);
+            padding: 15px; margin: 20px 0; font-weight: 700; color: #fff;
+        }
+        .narration {
+            font-size: 0.95rem; line-height: 1.6; border-top: 1px dashed #555; padding-top: 15px; margin-top: 15px;
+        }
+        .meta-text { color: #888; font-size: 0.85rem; font-style: italic; }
+
+        @media (max-width: 800px) { .modal-content { grid-template-columns: 1fr; } .modal-img { height: 250px; min-height: auto; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">萬事亨通 AGENCY</div>
+        <div class="nav-links">
+            <button class="active" onclick="showTab('world')">네오-홍콩</button>
+            <button onclick="showTab('crew')">사무소 식구들</button>
+            <button onclick="showTab('debts')">채권자/진상들</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 class="glitch-title">네오-홍콩</h1>
+        <p>※ 주의: 샤오롱바오 먹고싶다 ※</p>
+    </section>
+
+    <div class="container">
+        
+        <!-- 네오-홍콩 세계관 -->
+        <section id="world" class="section active">
+            <div class="world-panel">
+                <h2>환영한다. 끔찍한 짬뽕탕의 도시에 온 것을.</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">
+                    네오-몽콕의 밤비가 네온사인을 일주일 묵은 마라탕 국물처럼 붉게 물들이고 있다. <br>
+                    이곳은 외계 문명과 구식 무협이 뒤섞인 대개항(大開港) 시대의 <span class="highlight-pink">네오-홍콩</span>.
+                </p>
+                <ul style="list-style: square inside; margin-left: 20px; color: #aaa;">
+                    <li style="margin-bottom: 10px;">저 하늘 위로 치솟은 <span class="highlight-yellow">구룡성채 우주 궤도 엘리베이터</span>를 보라. 불법 증축의 끝을 보여주는 인류의 흉물이다.</li>
+                    <li style="margin-bottom: 10px;">뒷골목에선 도사들이 태블릿 PC로 <span class="highlight-yellow">블루투스 강시</span>를 조종하다 와이파이가 끊겨 쫓기고 있다. (월 요금을 안 내면 강시가 물어뜯는다)</li>
+                    <li>삼합회 놈들은 구역 다툼을 위해 레이저 광선검을 꺼내 들었지만, 멀티탭 구멍이 모자라 서로 쌍욕을 하고 있다.</li>
+                </ul>
+                <p style="margin-top: 20px; font-style: italic; color: #777;">
+                    ( 시스템 경고: 텍스트 렌더링에 예산이 초과되었습니다. 소개할 것도 없으니 본론으로 들어갑니다. )
+                </p>
+            </div>
+        </section>
+
+        <!-- 만사형통 사무소 -->
+        <section id="crew" class="section">
+            <h2 style="color:var(--neon-cyan); margin-bottom:30px; font-size:2.5rem;">[만사형통] 파산 직전 명단</h2>
+            <div class="grid" id="crewGrid"></div>
+        </section>
+
+        <!-- 뒷골목 진상들 -->
+        <section id="debts" class="section">
+            <h2 style="color:var(--neon-pink); margin-bottom:30px; font-size:2.5rem;">[경계 대상] 외계인 및 요괴 놈들</h2>
+            <div class="grid" id="debtGrid"></div>
+        </section>
+
+    </div>
+
+    <!-- 범용 모달 -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <div class="modal-img" id="mImg"></div>
+            <div class="modal-body">
+                <button class="close-btn" onclick="closeModal()">X</button>
+                <div id="mTag" style="color:var(--neon-yellow); font-weight:900; margin-bottom:10px;"></div>
+                <h2 id="mName" style="font-size:2.5rem; color:#fff; margin-bottom:15px; font-family:'Black Han Sans', sans-serif;"></h2>
+                <div class="meta-text" id="mMeta"></div>
+                
+                <div class="dialogue-box" id="mDialogue"></div>
+                
+                <div class="narration" id="mNarration"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const crewData = [
+            {
+                name: "아룡", tag: "대표 (백수)", meta: "20대 후반 | 전 흑사회 전설의 살수 | INTP-T",
+                dialogue: "아룡 | \"어이, 피를 보기엔 날씨가 너무 덥지 않아? 그냥 서로 안 본 걸로 하고 각자 집으로 꺼지자고. 아, 당 떨어져...\"",
+                narration: "놈들의 살기가 뒷골목을 채울 때, 아룡은 비장한 눈빛으로 애검 '적룡'의 스위치를 눌렀다. [틱, 틱.] 배터리가 방전되어 불이 들어오지 않았다.<br><br>아룡이 혀를 차며 적들을 향해 말했다.<br>아룡 | \"아, 어제 유튜브 보다 자서 충전 안 했네. 타임.\"",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/A01.png"
+            },
+            {
+                name: "샤오칭", tag: "지네 요괴", meta: "외관 10대 후반 | 뒷골목 출신 | ESTP-A",
+                dialogue: "샤오칭 | \"헤헤, 아저씨. 방금 마신 찻물 색깔이 좀 예쁘지 않아? 그거 내용물, 어떨까나? 치, 흥이다 흥.\"",
+                narration: "샤오칭이 보라색 독 안개를 뿜어냈다. [치이이익-] 하는 싸구려 텍스트 효과음과 함께 엑스트라 A, B가 와이어에 매달린 것처럼 과장된 폼으로 튕겨 나갔다. 무색무취의 맹독을 다루는 무시무시한 능력이지만, 그녀가 이 능력을 가장 자주 쓰는 곳은 사무소 화장실 바퀴벌레 퇴치용.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/CH01.png"
+            },
+            {
+                name: "밍밍", tag: "경리 겸 브레이크", meta: "19살 | 파산 직전 무관 후계자 | ISTJ-A",
+                dialogue: "밍밍 | \"사장님!!! 또 마작판에서 월세를 다 날렸어요?! 당장 월세 낼 돈도 없다구요!!!\"",
+                narration: "밍밍이 화를 내며 책상을 내리쳤다. 그 충격으로 웹사이트의 폰트가 흔들리는 듯했다. 무력은 제로에 가깝지만 분노했을 때 뿜어내는 살기는 전설의 살수 아룡조차 쫄아서 자는 척하게 만든다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/MM01.png"
+            }
+        ];
+
+        const debtData = [
+            {
+                name: "이스카", tag: "특무 관리국장", meta: "20대 후반 | 외계/인간 혼혈 | INTJ-T",
+                dialogue: "이스카 | \"하아... 또 너희 만사형통이냐? 이번 구룡성채 폭발 사고로 내가 결재해야 할 텍스트 시말서만 10만 자가 넘어. 제발 숨만 쉬고 살아주면 안 될까?\"",
+                narration: "혈관에 피 대신 아메리카노가 흐르는 워커홀릭. 세계관 내 손꼽히는 강자라는 설정이 무색하게 서류 더미에 깔려 싸울 시간이 없다. 텍스트 효과음 [타타타탁-]과 함께 신경질적으로 태블릿을 두드리는 그녀의 눈빛은 일주일 묵은 마라탕 국물처럼 탁하고 썩어 있었다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/EK01.png"
+            },
+            {
+                name: "신공표", tag: "자칭 위대한 신선", meta: "나이 불명 | 프로 배신자 | ESTP-T",
+                dialogue: "신공표 | \"오호호! 어리석은 미물들! 이 위대한 신공표 님의 벼락을 맞고... 어라? 잠깐, 보패 배터리가 왜 1%지? 야, 타임! 충전기 좀 빌리자!\"",
+                narration: "고대 보패 뇌공편(雷公鞭)을 휘두르며 하늘에서 벼락을 떨어뜨리는 무시무시한 악당. <br><br>하지만 [빠직- 퍼퍼펑!] 하는 해상도 낮은 폭발 이펙트와 함께 자기가 쏜 벼락에 맞아 새카맣게 타버렸다. 동맹을 맺으면 30분 안에 통수를 친다는 소문이 있지만 멍청해서 번번이 실패한다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/GP01.png"
+            },
+            {
+                name: "네이'루", tag: "불법 야매 의사", meta: "지구 나이 불명 | 외계 생체공학자 | INTP-T",
+                dialogue: "네이'루 | \"내장이 좀 심하게 튀어나왔네. 괜찮아, 어제 주워둔 중고 세탁기 모터로 이어 붙이면 대충 굴러갈 거야. 마취약 떨어졌는데 이 스패너로 뒤통수 맞을래?\"",
+                narration: "감정 기복이 전혀 없는 건조한 목소리. 지구인의 생물학적 상식이 미묘하게 결여된 그녀는 수술 중 환자의 위장에 블루투스 스피커를 장착해버리곤 한다. 텍스트 묘사로 차마 담기 힘든 끔찍한 의료 사고(혹은 기적)가 뒷골목에서 매일 일어나는 중이다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/NR01.png"
+            },
+            {
+                name: "월령", tag: "명월방 방주", meta: "수백 살 추정 | 정보상 / 거물 도깨비 | ENTP-A",
+                dialogue: "월령 | \"밀린 외상값은 오늘 몸으로 갚으실까, 아니면 싱싱한 신장으로 갚으실까~?\"",
+                narration: "명월방의 고급 카펫에 방금 쪄낸 샤오롱바오의 육즙처럼 끈적한 핏방울이 떨어지자, 아룡의 위장에서 궤양이 터지는 소리가 들렸다. 저 카펫은 3만 크레딧짜리였다. 콧소리 섞인 애교를 부리지만 수금할 때만큼은 네오-홍콩에서 제일 무서운 빚쟁이다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/WL01.png"
+            },
+            {
+                name: "라'안", tag: "사이버 풍수지리사", meta: "외계인 | 우주-부동산 중개업자 | ESTJ-A",
+                dialogue: "라'안 | \"어머, 손님. 이 자리는 지하에 플라즈마 누출맥이 흐르는 초역세권 명당이랍니다. 권리금 얹어서 보증금 5천에 월세 300, 어떠신가요?\"",
+                narration: "항상 가식적인 미소를 짓고 있는 철저한 자본주의자. 풍수지리 나침반 대신 최신형 태블릿으로 수맥(을 가장한 방사능 유출구)을 찾는다. 그녀와 대화하다 보면 기승전결이 무조건 '계약서 서명'으로 끝나는 기적의 화법을 경험하게 된다.",
+                img: "https://raw.githubusercontent.com/ggim17110-star/UTT/refs/heads/main/LA01.png"
+            }
+        ];
+
+        function showTab(id) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-links button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function renderCards(data, containerId) {
+            const container = document.getElementById(containerId);
+            data.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${char.img}">
+                    <div class="card-body">
+                        <span class="card-tag">${char.tag}</span>
+                        <div class="card-name">${char.name}</div>
+                    </div>
+                `;
+                card.onclick = () => openModal(char);
+                container.appendChild(card);
+            });
+        }
+
+        function openModal(char) {
+            document.getElementById('mName').innerText = char.name;
+            document.getElementById('mTag').innerText = char.tag;
+            document.getElementById('mMeta').innerText = char.meta;
+            document.getElementById('mDialogue').innerHTML = char.dialogue;
+            document.getElementById('mNarration').innerHTML = char.narration;
+            document.getElementById('mImg').style.backgroundImage = `url(${char.img})`;
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        renderCards(crewData, 'crewGrid');
+        renderCards(debtData, 'debtGrid');
+    </script>
+</body>
+</html>
